@@ -17,14 +17,17 @@ jobs:
 
       - uses: android-actions/setup-android@v3
 
-      - uses: gradle/actions/setup-gradle@v3
-        with:
-          gradle-version: "8.2.2"
+      - name: Install Gradle 8.2.2 (explicit)
+        run: |
+          curl -fsSL -o /tmp/gradle.zip https://services.gradle.org/distributions/gradle-8.2.2-bin.zip
+          unzip -q /tmp/gradle.zip -d /opt
+          /opt/gradle-8.2.2/bin/gradle --version
 
       - name: Build debug APK
-        run: gradle :app:assembleDebug --no-daemon
+        run: /opt/gradle-8.2.2/bin/gradle :app:assembleDebug --no-daemon --stacktrace
 
       - uses: actions/upload-artifact@v4
         with:
           name: wriststream-apk
           path: app/build/outputs/apk/debug/app-debug.apk
+          if-no-files-found: error
