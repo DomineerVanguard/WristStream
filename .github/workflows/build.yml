@@ -21,13 +21,14 @@ jobs:
           packages: "platform-tools platforms;android-34 build-tools;34.0.0"
           accept-android-sdk-licenses: true
 
-      - name: Install Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "8.2.2"
+      - name: Install Gradle 8.2 (from mirror)
+        run: |
+          curl -fsSL --retry 3 -o /tmp/gradle.zip https://mirrors.huaweicloud.com/gradle/gradle-8.2-bin.zip
+          unzip -q /tmp/gradle.zip -d /opt
+          /opt/gradle-8.2/bin/gradle --version
 
       - name: Build debug APK
-        run: gradle :app:assembleDebug --no-daemon --stacktrace
+        run: /opt/gradle-8.2/bin/gradle :app:assembleDebug --no-daemon --stacktrace
 
       - uses: actions/upload-artifact@v4
         with:
