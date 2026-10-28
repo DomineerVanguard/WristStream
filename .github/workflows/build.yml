@@ -16,6 +16,10 @@ jobs:
           java-version: 17
 
       - uses: android-actions/setup-android@v3
+        with:
+          # 关键修复：Google 已下架旧 `tools` 包，必须显式指定存在的包
+          packages: "platform-tools platforms;android-34 build-tools;34.0.0"
+          accept-android-sdk-licenses: true
 
       - name: Install Gradle 8.2.2 (explicit)
         run: |
