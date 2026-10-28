@@ -1,0 +1,31 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    namespace 'com.wriststream.app'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId "com.wriststream.app"
+        minSdk 26          // Android 8.0+（ColorOS Watch 全系可跑）
+        targetSdk 30       // 与手表 Android 11 保持一致，避免新行为限制
+        versionCode 1
+        versionName "0.1.0"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+    kotlinOptions {
+        jvmTarget = '17'
+    }
+}
