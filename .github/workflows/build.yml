@@ -17,18 +17,17 @@ jobs:
 
       - uses: android-actions/setup-android@v3
         with:
-          # 关键修复：Google 已下架旧 `tools` 包，必须显式指定存在的包
+          # Google 已下架旧 `tools` 包，显式指定存在的包
           packages: "platform-tools platforms;android-34 build-tools;34.0.0"
           accept-android-sdk-licenses: true
 
-      - name: Install Gradle 8.2.2 (explicit)
-        run: |
-          curl -fsSL -o /tmp/gradle.zip https://services.gradle.org/distributions/gradle-8.2.2-bin.zip
-          unzip -q /tmp/gradle.zip -d /opt
-          /opt/gradle-8.2.2/bin/gradle --version
+      - name: Install Gradle
+        uses: gradle/actions/setup-gradle@v4
+        with:
+          gradle-version: "8.2.2"
 
       - name: Build debug APK
-        run: /opt/gradle-8.2.2/bin/gradle :app:assembleDebug --no-daemon --stacktrace
+        run: gradle :app:assembleDebug --no-daemon --stacktrace
 
       - uses: actions/upload-artifact@v4
         with:
